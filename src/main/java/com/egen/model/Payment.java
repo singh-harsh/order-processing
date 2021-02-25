@@ -1,23 +1,27 @@
 package com.egen.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
-//@Entity
+@Entity
 public class Payment {
 
     @Id
-    private long confirmationNumber;
+    private long paymentId;
+
+    @Column(length = 16)
+    private long card_number;
 
     @Column(nullable = false)
     private String method;
 
     @Column(nullable = false)
-    private String date;
+    private String expiry_date;
 
-//    @ManyToOne
-//    private Order placedOrder;
-
+    @ManyToOne
+    @JoinColumn(name="FK_customer_id",
+            referencedColumnName = "customer_id",
+            foreignKey = @ForeignKey(
+                    name = "customer_payment_fk"
+            ))
+    private Customer cusPayment;
 }

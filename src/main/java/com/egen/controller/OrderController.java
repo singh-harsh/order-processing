@@ -1,21 +1,16 @@
 package com.egen.controller;
 
-
 import com.egen.model.Order;
 import com.egen.service.OrderService;
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
+@RequestMapping("/api/v1/order")
 public class OrderController {
-    
+
     private OrderService orderService;
 
     @Autowired
@@ -23,31 +18,20 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/order/{orderId}")
-    public ResponseEntity<?> getOrder(@PathVariable long orderId) {
-
-        try {
-            Order order = orderService.findOne(orderId);
-            return new ResponseEntity<>(order, HttpStatus.OK);
-
-        } catch (NotFoundException e) {
-            return new ResponseEntity<>("No order found with id" + orderId, HttpStatus.NOT_FOUND);
-        }
+    @GetMapping("/{orderId}")
+    public Order getOrder(@PathVariable long orderId) {
+        return orderService.findOne(orderId);
     }
 
-    @PutMapping("/order/")
+    @PostMapping("/")
     public ResponseEntity<String> createOrder(@RequestBody Order order) {
-        orderService.createOrder(order);
+        System.out.println("HERE");
+//        orderService.createOrder(order);
         return new ResponseEntity<>("Order placed successfully", HttpStatus.CREATED);
     }
 
-    @PutMapping("/order/{orderId}")
-    public ResponseEntity<?> cancelOrder(@PathVariable long orderId) {
-        try {
-            orderService.cancelOrder(orderId);
-        } catch (NotFoundException e) {
-            return new ResponseEntity<>("No order found with id" + orderId, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>("Order cancelled successfully", HttpStatus.OK);
+    @PutMapping("/{orderId}")
+    public Order cancelOrder(@PathVariable long orderId) {
+        return orderService.cancelOrder(orderId);
     }
 }

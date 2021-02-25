@@ -21,7 +21,7 @@ public class Address {
     private String state;
 
     @Column(nullable = false)
-    private int zip;
+    private String zip;
 
     public long getAddressId() {
         return addressId;
@@ -63,11 +63,11 @@ public class Address {
         this.state = state;
     }
 
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 }

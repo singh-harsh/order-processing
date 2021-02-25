@@ -1,17 +1,16 @@
 package com.egen.model;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Product {
 
     @Id
     @GeneratedValue( strategy = GenerationType.AUTO)
-    private String product_id;
+    @Column(name = "product_id")
+    private long product_id;
 
     @Column(nullable = false)
     private String product_name;
@@ -19,6 +18,11 @@ public class Product {
     @Column(nullable = false)
     private long product_price;
 
-    @OneToOne
-    private LineItem lineItem;
+    @Column(nullable = false)
+    private long product_total_quantity;
+
+    @OneToMany(mappedBy="pro",
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private Set<OrderItem> orderItems = new HashSet<>();
 }

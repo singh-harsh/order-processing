@@ -5,9 +5,9 @@ import javassist.NotFoundException;
 
 public interface OrderService {
 
-    public Order findOne(long orderId) throws NotFoundException;
+    Order findOne(long orderId);
 
-    public Order createOrder(Order order);
+    Order createOrder(Order order);
 
-    public Order cancelOrder(long orderId) throws NotFoundException;
+    Order cancelOrder(long orderId);
 }
